@@ -192,6 +192,7 @@ export default async function SingleBlogPage({
             fill
             className="object-cover object-center"
             priority
+            unoptimized
           />
         </div>
         <div className="container mx-auto px-6 relative z-10">
