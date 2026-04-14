@@ -20,7 +20,7 @@ export default function AboutClient({ sanityVideo }: AboutClientProps) {
         {/* OPTIMIZED: Added aria-hidden to decorative background container */}
         <div className="absolute inset-0 opacity-40" aria-hidden="true">
           
-          {/* THE FIX: Only the MuxPlayer. No image overlay, no fade logic. */}
+          {/* THE FIX: Added scale-[1.25] for mobile zoom, resetting to scale-100 on desktop */}
           {sanityVideo ? (
             <MuxPlayer
               playbackId={sanityVideo.playbackId}
@@ -28,16 +28,16 @@ export default function AboutClient({ sanityVideo }: AboutClientProps) {
               muted
               autoPlay="muted"
               loop
+              playsInline
               streamType="on-demand"
               minResolution="480p"
-              className="w-full h-full object-cover" // THE FIX: Standard Tailwind fallback for mobile browsers
+              className="absolute inset-0 w-full h-full object-cover scale-[1.25] sm:scale-100 origin-center transition-transform duration-500" 
               style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover', // THE FIX: Standard React style fallback for mobile browsers
                 '--media-object-fit': 'cover',
                 '--media-object-position': 'center', 
-                '--controls': 'none'
+                '--controls': 'none',
+                minHeight: '100%',
+                minWidth: '100%'
               } as React.CSSProperties}
             />
           ) : (
@@ -99,12 +99,12 @@ export default function AboutClient({ sanityVideo }: AboutClientProps) {
               <div className="relative h-[550px] rounded-[2rem] overflow-hidden shadow-lg group">
                 <Image
                   src="https://images.pexels.com/photos/20324831/pexels-photo-20324831.jpeg?auto=compress&cs=tinysrgb&w=2000"
-                  alt="Travelers enjoying a seamless Tuyeni Travel experience in Namibia" // OPTIMIZED: Enhanced keyword alt text
+                  alt="Travelers enjoying a seamless Tuyeni Travel experience in Namibia" 
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  loading="lazy" // OPTIMIZED: Explicit lazy load for below-the-fold image
-                  unoptimized // THE FIX: Bypasses Next.js image optimization for external URLs
+                  loading="lazy" 
+                  unoptimized 
                 />
               </div>
             </div>
