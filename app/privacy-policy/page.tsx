@@ -74,6 +74,7 @@ export default function PrivacyPolicyPage() {
             sizes="100vw" // OPTIMIZED: Helps browser allocate resources efficiently
             className="object-cover"
             priority
+            unoptimized // THE FIX: Bypasses Netlify image optimization failure for external URLs
           />
         </div>
         <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">

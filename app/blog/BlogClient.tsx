@@ -211,7 +211,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
             className="w-full mt-1" 
           >
             
-            {/* THE FIX: MOVED SEARCH & CATEGORY FILTERS ABOVE THE FEATURED POST */}
+            {/* SEARCH & CATEGORY FILTERS */}
             <div className="mb-12 border-b border-gray-200 pb-8 pt-4">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                 <div className="flex flex-wrap gap-2 md:gap-3" role="group" aria-label="Article Categories">
@@ -259,7 +259,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
               </div>
             </div>
 
-            {/* --- FEATURED POST (NOW SITS BELOW FILTERS) --- */}
+            {/* --- FEATURED POST --- */}
             {activeCategory === "All" && !searchQuery && FEATURED_POST && !isLoading && (
               <div className="mb-20">
                 <div className="flex items-center justify-between mb-8">
@@ -318,6 +318,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      unoptimized // THE FIX: Bypasses Netlify image optimization failure
                     />
                     <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-orange-600 shadow-sm">
                       {FEATURED_POST.category}
@@ -426,6 +427,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            unoptimized // THE FIX: Bypasses Netlify image optimization failure
                           />
                           <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-bold text-orange-600 shadow-sm">
                             {post.category}

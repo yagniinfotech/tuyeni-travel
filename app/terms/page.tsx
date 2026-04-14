@@ -74,6 +74,7 @@ export default function TermsAndConditionsPage() {
             sizes="100vw" // OPTIMIZED: Helps browser allocate resources efficiently
             className="object-cover object-[center_40%]"
             priority
+            unoptimized
           />
         </div>
         <div className="container mx-auto px-6 lg:px-12 relative z-10 text-center">
