@@ -124,7 +124,6 @@ export default function HomeClient({ sanityVideos = [] }: HomeClientProps) {
   return (
     <main className="flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
-      {/* OPTIMIZED: Added aria-label for screen readers */}
       <section className="relative h-screen w-full flex items-center justify-center text-center px-6" aria-label="Main Hero">
         <div className="absolute inset-0 z-0 bg-gray-900 overflow-hidden">
           
@@ -133,14 +132,13 @@ export default function HomeClient({ sanityVideos = [] }: HomeClientProps) {
             className={`absolute inset-0 z-20 pointer-events-none transition-opacity duration-[600ms] ease-in-out ${
               isInitialImageVisible ? "opacity-100" : "opacity-0"
             }`}
+            aria-hidden="true" // OPTIMIZED: Hide visual placeholder from screen readers
           >
-            <Image
+            {/* OPTIMIZED: Replaced Next.js <Image> with standard <img> for instant unoptimized load */}
+            <img
               src="/assets/fourth.jpg"
-              alt="Namibian desert landscape at sunrise with Tuyeni Travel" // OPTIMIZED: More descriptive alt text
-              fill
-              sizes="100vw" // OPTIMIZED: Helps browser allocate resources efficiently
-              className="object-cover object-bottom"
-              priority
+              alt="" // Kept empty because aria-hidden is true
+              className="w-full h-full object-cover object-bottom"
             />
           </div>
 

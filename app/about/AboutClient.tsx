@@ -102,6 +102,7 @@ export default function AboutClient({ sanityVideo }: AboutClientProps) {
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   loading="lazy" // OPTIMIZED: Explicit lazy load for below-the-fold image
+                  unoptimized // THE FIX: Bypasses Next.js image optimization for external URLs
                 />
               </div>
             </div>

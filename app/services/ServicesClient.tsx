@@ -300,7 +300,8 @@ export default function ServicesClient({ sanityVideo }: ServicesClientProps) {
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 768px) 100vw, 40vw"
-                        loading="lazy" // OPTIMIZED: Explicit lazy loading for performance
+                        loading="lazy"
+                        unoptimized // THE FIX: Bypasses Next.js image optimization for external URLs
                       />
                       <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
                     </div>
