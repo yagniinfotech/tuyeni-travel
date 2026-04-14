@@ -30,9 +30,11 @@ export default function AboutClient({ sanityVideo }: AboutClientProps) {
               loop
               streamType="on-demand"
               minResolution="480p"
+              className="w-full h-full object-cover" // THE FIX: Standard Tailwind fallback for mobile browsers
               style={{
                 width: '100%',
                 height: '100%',
+                objectFit: 'cover', // THE FIX: Standard React style fallback for mobile browsers
                 '--media-object-fit': 'cover',
                 '--media-object-position': 'center', 
                 '--controls': 'none'
