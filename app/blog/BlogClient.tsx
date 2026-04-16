@@ -42,6 +42,9 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
   // --- PAGINATION STATE ---
   const [visibleCount, setVisibleCount] = useState(6);
 
+  // --- MOBILE DROPDOWN STATE ---
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   useEffect(() => {
     setVisibleCount(6);
   }, [activeCategory, searchQuery]);
@@ -159,6 +162,16 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
   const visiblePosts = filteredPosts.slice(0, visibleCount);
   const FEATURED_POST = posts.length > 0 ? posts[0] : null;
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-orange-500 font-bold text-xl animate-pulse">
+          Loading Tuyeni Journals...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-gray-50/50 relative">
       
@@ -214,23 +227,9 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
             {/* SEARCH & CATEGORY FILTERS */}
             <div className="mb-12 border-b border-gray-200 pb-8 pt-4">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-                <div className="flex flex-wrap gap-2 md:gap-3" role="group" aria-label="Article Categories">
-                  {CATEGORIES.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => handleCategoryClick(cat)}
-                      aria-pressed={activeCategory === cat}
-                      className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
-                        activeCategory === cat
-                          ? "bg-gray-900 text-white shadow-md"
-                          : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                </div>
-                <div className="relative w-full lg:w-72 shrink-0">
+                
+                {/* SEARCH BAR */}
+                <div className="relative w-full lg:w-72 shrink-0 z-10">
                   <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                     <svg
                       className="w-5 h-5 text-gray-400"
@@ -253,9 +252,79 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
                     placeholder="Search articles..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all text-sm font-medium"
+                    className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-full focus:outline-none focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition-all text-sm font-medium shadow-sm"
                   />
                 </div>
+
+                {/* DESKTOP CATEGORY BUTTONS */}
+                <div className="hidden md:flex flex-wrap gap-2 md:gap-3" role="group" aria-label="Article Categories">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => handleCategoryClick(cat)}
+                      aria-pressed={activeCategory === cat}
+                      className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+                        activeCategory === cat
+                          ? "bg-gray-900 text-white shadow-md"
+                          : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+
+                {/* MOBILE CATEGORY DROPDOWN */}
+                <div className="block md:hidden w-full relative z-30">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className={`w-full px-5 py-3.5 bg-white border ${
+                      isDropdownOpen 
+                        ? "border-orange-500 ring-1 ring-orange-500" 
+                        : "border-gray-200"
+                    } rounded-full flex justify-between items-center transition-all text-sm font-bold text-gray-900 shadow-sm cursor-pointer`}
+                  >
+                    <span>{activeCategory}</span>
+                    <svg
+                      className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                        isDropdownOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown Menu List */}
+                  <div
+                    className={`absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden py-2 transform origin-top transition-all duration-300 ease-out ${
+                      isDropdownOpen
+                        ? "opacity-100 scale-100 translate-y-0 visible pointer-events-auto"
+                        : "opacity-0 scale-95 -translate-y-3 invisible pointer-events-none"
+                    }`}
+                  >
+                    {CATEGORIES.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => {
+                          handleCategoryClick(cat);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`w-full text-left px-5 py-3 text-sm transition-colors ${
+                          activeCategory === cat
+                            ? "bg-[#B3E5FC] text-gray-900 font-bold"
+                            : "text-gray-700 hover:bg-gray-50 font-medium"
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                
               </div>
             </div>
 
@@ -318,7 +387,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      unoptimized // THE FIX: Bypasses Netlify image optimization failure
+                      unoptimized 
                     />
                     <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-bold text-orange-600 shadow-sm">
                       {FEATURED_POST.category}
@@ -427,7 +496,7 @@ export default function BlogClient({ sanityVideo }: BlogClientProps) {
                             fill
                             className="object-cover transition-transform duration-700 group-hover:scale-110"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            unoptimized // THE FIX: Bypasses Netlify image optimization failure
+                            unoptimized 
                           />
                           <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-bold text-orange-600 shadow-sm">
                             {post.category}
